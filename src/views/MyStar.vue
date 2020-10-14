@@ -19,6 +19,7 @@ export default {
     this.postList = res.data.data;
   }
 };
+//实验
 </script>
 
 <style></style>
