@@ -9,6 +9,10 @@ import Edit from '../views/Edit.vue'
 import MyFollow from '../views/MyFollow.vue'
 import MyComment from '../views/MyComment.vue'
 import MyStar from '../views/MyStar.vue'
+import Home from '../views/Home.vue'
+import Detail from '../views/Detail.vue'
+import TabsEdit from '../views/TabsEdit.vue'
+import Search from '../views/Search.vue'
 
 
 
@@ -53,6 +57,26 @@ const router = new VueRouter({
                 path: '/my-star',
                 name: 'mystar',
                 component: MyStar
+            },
+            {
+                path: '/home',
+                name: 'home',
+                component: Home
+            },
+            {
+                path: '/detail/:id',
+                name: 'detail',
+                component: Detail
+            },
+            {
+                path: '/tabsedit',
+                name: 'tabsedit',
+                component: TabsEdit
+            },
+            {
+                path: '/search',
+                name: 'search',
+                component: Search
             }
         ],
     })
@@ -60,11 +84,11 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
 
         // /user /my-follow  /my-comments  /my-star
-        const authPath = ['/user', '/my-follow', '/my-comments', '/my-star', '/edit']
+        const authPath = ['/user', '/my-follow', '/my-comments', '/my-star', '/edit', '/home']
 
         if (authPath.includes(to.path)) { // 未完待续
 
-            let token = localStorage.getItem('token')
+            const token = localStorage.getItem('token')
             if (token) {
                 next()
             } else {

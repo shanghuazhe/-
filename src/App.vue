@@ -1,5 +1,8 @@
 <template>
-  <router-view></router-view>
+  <!-- 出口 -->
+  <keep-alive include="home">
+    <router-view></router-view>
+  </keep-alive>
 </template>
 
 <script>
