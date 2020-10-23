@@ -14,79 +14,92 @@ import Detail from '../views/Detail.vue'
 import TabsEdit from '../views/TabsEdit.vue'
 import Search from '../views/Search.vue'
 
-
-
 //细节 : 项目中(模块化工程中) 必须使用 vue.use()安装一下,把路由当成插件来使用
 Vue.use(VueRouter)
 
 //实例化路由
 const router = new VueRouter({
-        routes: [{
-                path: '/',
-                redirect: '/login',
-            },
-            {
-                path: '/login',
-                name: 'login',
-                component: Login,
-            },
-            {
-                path: '/register',
-                name: 'register',
-                component: Register,
-            },
-            {
-                path: '/user',
-                name: 'user',
-                component: User
-            },
-            {
-                path: '/Edit',
-                name: 'edit',
-                component: Edit
-            }, {
-                path: '/my-follow',
-                name: 'myfollow',
-                component: MyFollow
-            },
-            {
-                path: '/my-comment',
-                name: 'mycomment',
-                component: MyComment
-            }, {
-                path: '/my-star',
-                name: 'mystar',
-                component: MyStar
-            },
-            {
-                path: '/home',
-                name: 'home',
-                component: Home
-            },
-            {
-                path: '/detail/:id',
-                name: 'detail',
-                component: Detail
-            },
-            {
-                path: '/tabsedit',
-                name: 'tabsedit',
-                component: TabsEdit
-            },
-            {
-                path: '/search',
-                name: 'search',
-                component: Search
-            }
-        ],
-    })
-    //导航守卫  全局前置守卫
+    routes: [{
+            path: '/',
+            redirect: '/login',
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: Login,
+        },
+        {
+            path: '/register',
+            name: 'register',
+            component: Register,
+        },
+        {
+            path: '/user',
+            name: 'user',
+            component: User,
+        },
+        {
+            path: '/Edit',
+            name: 'edit',
+            component: Edit,
+        },
+        {
+            path: '/my-follow',
+            name: 'myfollow',
+            component: MyFollow,
+        },
+        {
+            path: '/my-comment',
+            name: 'mycomment',
+            component: MyComment,
+        },
+        {
+            path: '/my-star',
+            name: 'mystar',
+            component: MyStar,
+        },
+        {
+            path: '/home',
+            name: 'home',
+            component: Home,
+        },
+        {
+            path: '/detail/:id',
+            name: 'detail',
+            component: Detail,
+        },
+        {
+            path: '/tabsedit',
+            name: 'tabsedit',
+            component: TabsEdit,
+        },
+        {
+            path: '/search',
+            name: 'search',
+            component: Search,
+        },
+    ],
+})
+
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+    return originalPush.call(this, location).catch(err => err)
+}
+
+//导航守卫  全局前置守卫
 router.beforeEach((to, from, next) => {
-
         // /user /my-follow  /my-comments  /my-star
-        const authPath = ['/user', '/my-follow', '/my-comments', '/my-star', '/edit', '/home']
+        const authPath = [
+            '/user',
+            '/my-follow',
+            '/my-comments',
+            '/my-star',
+            '/edit',
+            '/home',
+        ]
 
-        if (authPath.includes(to.path)) { // 未完待续
+        if (authPath.includes(to.path)) {
+            // 未完待续
 
             const token = localStorage.getItem('token')
             if (token) {
@@ -94,7 +107,8 @@ router.beforeEach((to, from, next) => {
             } else {
                 next('/login')
             }
-        } else { // 放行
+        } else {
+            // 放行
             next()
         }
     })
